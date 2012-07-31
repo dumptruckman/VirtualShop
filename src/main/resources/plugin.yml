@@ -3,7 +3,8 @@ description: Allows players to buy and sell goods on a VirtualShop.
 main: org.blockface.virtualshop.${project.name}
 name: ${project.name}
 url: http://blockface.org/
-version: b${build.number}
+version: ${project.version}
+depend: [Vault]
 commands:
     buy:
         description: Buy goods for sale on the VirtualShop.

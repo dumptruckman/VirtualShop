@@ -1,16 +1,14 @@
 package org.blockface.virtualshop.managers;
 
-import org.bukkit.util.config.Configuration;
-import org.bukkit.plugin.Plugin;
+import org.blockface.virtualshop.VirtualShop;
+import org.bukkit.configuration.file.FileConfiguration;
 
-public class ConfigManager
-{
-    private static Configuration config;
+public class ConfigManager {
 
-    public static void Initialize(Plugin plugin)
-    {
-        config = plugin.getConfiguration();
-        config.load();
+    private VirtualShop plugin;
+
+    public ConfigManager(VirtualShop plugin) {
+        this.plugin = plugin;
         BroadcastOffers();
         UsingMySQL();
         MySQLUserName();
@@ -19,46 +17,67 @@ public class ConfigManager
         MySQLport();
         MySQLPassword();
         getPort();
-        config.save();
+        plugin.saveConfig();
     }
 
-	public static Boolean BroadcastOffers()
-	{
-		return config.getBoolean("broadcast-offers", true);
-	}
-
-    public static Integer getPort() {
-        return config.getInt("MySQL.port",3306);
+    private FileConfiguration getConfig() {
+        return plugin.getConfig();
     }
 
-	public static Boolean UsingMySQL()
-	{
-		return config.getBoolean("using-MySQL", false);
-	}
+    public Boolean BroadcastOffers() {
+        if (!getConfig().contains("broadcast-offers")) {
+            getConfig().set("broadcast-offers", true);
+        }
+        return getConfig().getBoolean("broadcast-offers", true);
+    }
 
-	public static String MySQLUserName()
-	{
-		return config.getString("MySQL.username", "root");
-	}
+    public Integer getPort() {
+        if (!getConfig().contains("MySQL.port")) {
+            getConfig().set("MySQL.port", 3306);
+        }
+        return getConfig().getInt("MySQL.port", 3306);
+    }
 
-	public static String MySQLPassword()
-	{
-		return config.getString("MySQL.password", "password");
-	}
+    public Boolean UsingMySQL() {
+        if (!getConfig().contains("using-MySQL")) {
+            getConfig().set("using-MySQL", false);
+        }
+        return getConfig().getBoolean("using-MySQL", false);
+    }
 
-	public static String MySQLHost()
-	{
-		return config.getString("MySQL.host", "localhost");
-	}
+    public String MySQLUserName() {
+        if (!getConfig().contains("MySQL.username")) {
+            getConfig().set("MySQL.username", "root");
+        }
+        return getConfig().getString("MySQL.username", "root");
+    }
 
-	public static String MySQLdatabase()
-	{
-		return config.getString("MySQL.database", "minecraft");
-	}
+    public String MySQLPassword() {
+        if (!getConfig().contains("MySQL.password")) {
+            getConfig().set("MySQL.password", "password");
+        }
+        return getConfig().getString("MySQL.password", "password");
+    }
 
-	public static Integer MySQLport()
-	{
-		return config.getInt("MySQL.port", 3306);
-	}
+    public String MySQLHost() {
+        if (!getConfig().contains("MySQL.host")) {
+            getConfig().set("MySQL.host", "localhost");
+        }
+        return getConfig().getString("MySQL.host", "localhost");
+    }
+
+    public String MySQLdatabase() {
+        if (!getConfig().contains("MySQL.database")) {
+            getConfig().set("MySQL.database", "minecraft");
+        }
+        return getConfig().getString("MySQL.database", "minecraft");
+    }
+
+    public Integer MySQLport() {
+        if (!getConfig().contains("MySQL.port")) {
+            getConfig().set("MySQL.port", 3306);
+        }
+        return getConfig().getInt("MySQL.port", 3306);
+    }
 
 }

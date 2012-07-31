@@ -1,6 +1,7 @@
 package org.blockface.virtualshop.managers;
 
 import org.blockface.virtualshop.Chatty;
+import org.blockface.virtualshop.VirtualShop;
 import org.blockface.virtualshop.objects.Offer;
 import org.blockface.virtualshop.objects.Transaction;
 import org.blockface.virtualshop.persistance.Database;
@@ -14,17 +15,19 @@ import java.util.List;
 public class DatabaseManager
 {
     private static Database database;
+    private static VirtualShop plugin;
 
-    public static void Initialize()
+    public static void Initialize(VirtualShop plugin)
     {
-        if(ConfigManager.UsingMySQL()) LoadMySQL();
+        DatabaseManager.plugin = plugin;
+        if(plugin.getConfigManager().UsingMySQL()) LoadMySQL();
         else LoadSQLite();
     }
 
     private static void LoadSQLite() {
         database = new SQLiteDB();
         try {
-            database.Load();
+            database.Load(plugin);
         } catch (Exception e) {
             Chatty.LogInfo("Fatal error.");
         }
@@ -33,7 +36,7 @@ public class DatabaseManager
     private static void LoadMySQL() {
         database = new MySQLDB();
         try {
-            database.Load();
+            database.Load(plugin);
         } catch (Exception e) {
             LoadSQLite();
         }

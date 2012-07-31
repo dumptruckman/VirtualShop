@@ -1,10 +1,8 @@
 package org.blockface.virtualshop;
 
-import org.blockface.virtualshop.managers.EconomyManager;
 import org.blockface.virtualshop.objects.Offer;
 import org.blockface.virtualshop.objects.Transaction;
 import org.blockface.virtualshop.util.ItemDb;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,12 +13,12 @@ import java.util.logging.Logger;
 public class Chatty
 {
     private static String prefix;
-    private static Plugin plugin;
+    private static VirtualShop plugin;
 	private static Logger logger;
 
-    public static void Initialize(Plugin p)
+    public static void Initialize(VirtualShop p)
     {
-		logger = Logger.getLogger("minecraft");
+        logger = p.getLogger();
         plugin = p;
         prefix = "[Shop] " + ChatColor.WHITE;
         LogInfo(plugin.getDescription().getName() + " is loading.");
@@ -92,14 +90,14 @@ public class Chatty
 		return ChatColor.BLUE + item.toLowerCase() + ChatColor.WHITE;
 	}
 
-	public static String FormatPrice(double price)
-	{
-		return ChatColor.YELLOW + EconomyManager.getMethod().format(price) + ChatColor.WHITE;
-	}
+    public static String FormatPrice(double price)
+    {
+        return ChatColor.YELLOW + plugin.getEconomy().format(price) + ChatColor.WHITE;
+    }
 
 	public static String FormatBuyer(String buyer)
 	{
-		return ChatColor.AQUA + buyer.toString() + ChatColor.WHITE;
+		return ChatColor.AQUA + buyer + ChatColor.WHITE;
 	}
 
 	public static void NoPermissions(CommandSender sender)

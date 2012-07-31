@@ -1,9 +1,9 @@
 package org.blockface.virtualshop.commands;
 
-import com.LRFLEW.register.payment.Method;
 import org.blockface.virtualshop.Chatty;
+import org.blockface.virtualshop.VirtualShop;
 import org.blockface.virtualshop.managers.DatabaseManager;
-import org.blockface.virtualshop.managers.EconomyManager;
+import org.blockface.virtualshop.VaultListener;
 import org.blockface.virtualshop.objects.Offer;
 import org.blockface.virtualshop.objects.Transaction;
 import org.blockface.virtualshop.util.InventoryManager;
@@ -18,29 +18,29 @@ import java.util.List;
 
 public class Buy {
 
-    public static void Execute(CommandSender sender, String[] args)
+    public static void Execute(VirtualShop plugin, CommandSender sender, String[] args)
     {
-		if(!(sender instanceof Player))
-		{
-			Chatty.DenyConsole(sender);
-			return;
-		}
+        if(!(sender instanceof Player))
+        {
+            Chatty.DenyConsole(sender);
+            return;
+        }
         if(!sender.hasPermission("virtualshop.buy"))
         {
             Chatty.NoPermissions(sender);
             return;
         }
-		if(args.length < 2)
-		{
-			Chatty.SendError(sender, "Proper usage is /buy <amount> <item>");
-			return;
-		}
-		int amount = Numbers.ParseInteger(args[0]);
-		if(amount < 0)
-		{
-			Chatty.NumberFormat(sender);
-			return;
-		}
+        if(args.length < 2)
+        {
+            Chatty.SendError(sender, "Proper usage is /buy <amount> <item>");
+            return;
+        }
+        int amount = Numbers.ParseInteger(args[0]);
+        if(amount < 0)
+        {
+            Chatty.NumberFormat(sender);
+            return;
+        }
 
         float maxprice = 1000000000;
         if(args.length > 2)
@@ -53,14 +53,13 @@ public class Buy {
             }
         }
 
-		ItemStack item = ItemDb.get(args[1], 0);
-		if(item==null)
-		{
-			Chatty.WrongItem(sender, args[1]);
-			return;
-		}
-		Player player = (Player)sender;
-        Method.MethodAccount account = EconomyManager.getMethod().getAccount(player.getName());
+        ItemStack item = ItemDb.get(args[1], 0);
+        if(item==null)
+        {
+            Chatty.WrongItem(sender, args[1]);
+            return;
+        }
+        Player player = (Player)sender;
         int bought = 0;
         double spent = 0;
         InventoryManager im = new InventoryManager(player);
@@ -79,20 +78,20 @@ public class Buy {
                 double cost = o.price * canbuy;
 
                 //Revise amounts if not enough money.
-                if(!account.hasEnough(cost))
+                if(!plugin.getEconomy().has(player.getName(), cost))
                 {
-                    canbuy = (int)(account.balance() / o.price);
+                    canbuy = (int)(plugin.getEconomy().getBalance(player.getName()) / o.price);
                     cost = canbuy*o.price;
                     if(canbuy < 1)
                     {
-							Chatty.SendError(player,"Ran out of money!");
-							break;
+                        Chatty.SendError(player,"Ran out of money!");
+                        break;
                     }
                 }
                 bought += canbuy;
                 spent += cost;
-                account.subtract(cost);
-                EconomyManager.getMethod().getAccount(o.seller).add(cost);
+                plugin.getEconomy().withdrawPlayer(player.getName(), cost);
+                plugin.getEconomy().depositPlayer(o.seller, cost);
                 Chatty.SendSuccess(o.seller, Chatty.FormatSeller(player.getName()) + " just bought " + Chatty.FormatAmount(canbuy) + " " + Chatty.FormatItem(args[1]) + " for " + Chatty.FormatPrice(cost));
                 int left = o.item.getAmount() - canbuy;
                 if(left < 1) DatabaseManager.DeleteItem(o.id);
@@ -106,20 +105,20 @@ public class Buy {
                 double cost = canbuy * o.price;
 
                 //Revise amounts if not enough money.
-                if(!account.hasEnough(cost))
+                if(!plugin.getEconomy().has(player.getName(), cost))
                 {
-                    canbuy = (int)(account.balance() / o.price);
+                    canbuy = (int)(plugin.getEconomy().getBalance(player.getName()) / o.price);
                     cost = canbuy*o.price;
                     if(canbuy < 1)
                     {
-							Chatty.SendError(player,"Ran out of money!");
-							break;
+                        Chatty.SendError(player,"Ran out of money!");
+                        break;
                     }
                 }
                 bought += canbuy;
                 spent += cost;
-                account.subtract(cost);
-                EconomyManager.getMethod().getAccount(o.seller).add(cost);
+                plugin.getEconomy().withdrawPlayer(player.getName(), cost);
+                plugin.getEconomy().depositPlayer(o.seller, cost);
                 Chatty.SendSuccess(o.seller, Chatty.FormatSeller(player.getName()) + " just bought " + Chatty.FormatAmount(canbuy) + " " + Chatty.FormatItem(args[1]) + " for " + Chatty.FormatPrice(cost));
                 int left = o.item.getAmount() - canbuy;
                 DatabaseManager.UpdateQuantity(o.id, left);

@@ -2,6 +2,7 @@ package org.blockface.virtualshop.persistance;
 
 import org.blockface.virtualshop.Chatty;
 import lib.PatPeter.SQLibrary.*;
+import org.blockface.virtualshop.VirtualShop;
 
 import java.sql.ResultSet;
 
@@ -9,7 +10,7 @@ public class SQLiteDB implements Database
 {
     private SQLite db;
 
-    public void Load() throws Exception
+    public void Load(VirtualShop plugin) throws Exception
     {
         db = new SQLite(Chatty.getLogger(), Chatty.getPrefix(), "VirtualShop", "plugins/VirtualShop/");
 		db.open();

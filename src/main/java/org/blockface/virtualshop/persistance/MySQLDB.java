@@ -2,6 +2,7 @@ package org.blockface.virtualshop.persistance;
 
 import lib.PatPeter.SQLibrary.MySQL;
 import org.blockface.virtualshop.Chatty;
+import org.blockface.virtualshop.VirtualShop;
 import org.blockface.virtualshop.managers.ConfigManager;
 
 import java.sql.ResultSet;
@@ -10,10 +11,10 @@ public class MySQLDB implements Database
 {
     private MySQL db;
 
-    public void Load() throws Exception
+    public void Load(VirtualShop plugin) throws Exception
     {
         Chatty.LogInfo("Using MySQL.");
-        db = new MySQL(Chatty.getLogger(), Chatty.getPrefix(), ConfigManager.MySQLHost(), ConfigManager.getPort().toString(), ConfigManager.MySQLdatabase(), ConfigManager.MySQLUserName(), ConfigManager.MySQLPassword());
+        db = new MySQL(Chatty.getLogger(), Chatty.getPrefix(), plugin.getConfigManager().MySQLHost(), plugin.getConfigManager().getPort().toString(), plugin.getConfigManager().MySQLdatabase(), plugin.getConfigManager().MySQLUserName(), plugin.getConfigManager().MySQLPassword());
         db.open();
         if(db.checkConnection())
         {

@@ -2,20 +2,18 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.blockface</groupId>
   <artifactId>VirtualShop</artifactId>
-  <version>dev-SNAPSHOT</version>
+  <version>1.2.5-fix</version>
   <name>VirtualShop</name>
   <url>http://blockface.org/</url>
 
   <repositories>
     <repository>
-      <id>bukkit-repo</id>
-      <name>Bukkit</name>
-      <url>http://repo.bukkit.org/artifactory/repo</url>
+      <id>bukkit</id>
+      <url>http://repo.bukkit.org/content/groups/public/</url>
     </repository>
     <repository>
-      <id>blockface</id>
-      <name>Blockface</name>
-      <url>http://repojk.org/repository</url>
+      <id>onarandombox</id>
+      <url>http://repo.onarandombox.com/content/repositories/thirdparty/</url>
     </repository>
   </repositories>
 
@@ -65,7 +63,7 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.2.5-R4.0</version>
+      <version>1.2.5-R5.0</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>

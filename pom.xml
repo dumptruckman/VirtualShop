@@ -5,6 +5,7 @@
   <version>SNAPSHOT</version>
   <name>VirtualShop</name>
   <url>http://blockface.org/</url>
+
   <repositories>
     <repository>
       <id>bukkit-repo</id>
@@ -17,6 +18,7 @@
       <url>http://repojk.org/repository</url>
     </repository>
   </repositories>
+
   <build>
     <plugins>
       <plugin>
@@ -24,8 +26,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.0.2</version>
         <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
+          <source>1.6</source>
+          <target>1.6</target>
         </configuration>
       </plugin>
       <plugin>
@@ -58,53 +60,19 @@
       </resource>
     </resources>
   </build>
+
   <dependencies>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>1.2.5-R5.0</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>com.nijiko</groupId>
-      <artifactId>iCo4</artifactId>
-      <version>1.0</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>cosine.boseconomy</groupId>
-      <artifactId>BOSEconomy7</artifactId>
-      <version>1.0</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.nijiko</groupId>
-      <artifactId>iCo5</artifactId>
-      <version>1.0</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.nijiko</groupId>
-      <artifactId>iCo6</artifactId>
-      <version>1.0</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.earth2me</groupId>
-      <artifactId>Essentials</artifactId>
-      <version>1.0</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>me.ashtheking</groupId>
-      <artifactId>MultiCurrency</artifactId>
-      <version>1.0</version>
+      <groupId>net.milkbowl.vault</groupId>
+      <artifactId>Vault</artifactId>
+      <version>1.2.16</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
